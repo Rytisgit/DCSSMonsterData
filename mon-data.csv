@@ -1,5 +1,6 @@
-name,hd,hp,ac,ev
-program bug,16,750,1,22
+name,hd,datahp,ac,ev
+program bug,0,0,0,0
+removed ,16,750,1,22
 servant of whispers,12,800,1,12
 ragged hierophant,9,1200,0,10
 bat,1,35,1,14
@@ -88,7 +89,7 @@ skyshark,10,800,8,8
 wyvern,5,275,5,10
 komodo dragon,8,440,7,8
 merfolk,10,550,4,12
-merfolk impaler,10,6,10,10
+merfolk impaler,12,780,0,18
 merfolk javelineer,13,730,0,12
 merfolk aquamancer,14,630,0,12
 merfolk siren,9,405,4,12
@@ -313,7 +314,8 @@ mana viper,9,495,3,14
 troll,7,385,3,10
 iron troll,16,880,20,4
 deep troll,10,550,6,10
-deep troll earth mage,12,480,6,10
+deep troll earth mage,12,480,12,10
+deep troll shaman,12,480,6,10
 vampire,6,330,10,10
 vampire knight,11,715,10,10
 vampire mage,10,550,10,10
@@ -464,7 +466,8 @@ Nessos,9,720,4,8
 Chuck,18,1170,14,2
 Polyphemus,16,1520,10,3
 Antaeus,22,6820,28,4
-Tiamat,20,1850,14,8
+Tiamat,22,3850,30,10
+Bai Suzhen,20,1850,14,8
 Xtahua,20,1330,15,7
 the Lernaean hydra,30,1500,0,5
 the Serpent of Hell,17,2805,16,12
