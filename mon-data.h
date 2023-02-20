@@ -1,4 +1,317 @@
+#pragma once
 
+#define AT_NO_ATK       {AT_NONE, AF_PLAIN, 0}
+
+#include "enum.h"
+#include "tag-version.h"
+
+/* ******************************************************************
+
+   (see "mon-util.h" for the gory details)
+
+ - ordering does not matter, because seekmonster() searches the entire
+   array ... probably not to most efficient thing to do, but so it goes
+
+ - Here are the rows:
+    - row 1: monster id, display character, display colour, name
+    - row 2: monster flags
+    - row 3: monster resistance flags
+    - row 4: experience modifier, genus, species, holiness, willpower
+    - row 5: damage for each of four attacks
+    - row 6: hit dice, hit points
+    - row 7: AC, evasion, spells, corpse, shouts
+    - row 8: intel, habitat, speed, energy_usage
+    - row 9: gmon_use class, body size, body shape
+    - row 10: tile, corpse
+
+ - Some further explanations:
+
+    - colour: if COLOUR_UNDEF, a random colour will be chosen upon
+              creation. Some monsters set their colour during initialization,
+              and if a default colour isn't meaningful, they should also use
+              COLOUR_UNDEF.
+    - name: if an empty string, name generated automagically (see moname)
+    - genus: base monster "type" for a classed monsters (i.e. jackal as hound)
+    - species: corpse type of monster (i.e. orc for orc wizard)
+    - holiness: a bitwise OR of one or more of:
+       MH_HOLY       - irritates some gods when killed, immunity from
+                        holy wrath weapons. Includes good priests.
+       MH_NATURAL    - baseline monster type
+       MH_UNDEAD     - immunity from draining, pain, torment; resistance
+                        to poison; extra damage from holy wrath
+       MH_DEMONIC    - similar to undead, but no poison resistance
+                        *no* automatic damnation resistance
+       MH_NONLIVING  - golems and other constructs
+       MH_PLANT      - plants
+
+   exp_mod: multiplies xp value after most other calculations.
+            see exper_value() in mon-util.cc
+
+   willpower: see mons_willpower() in mon-util.cc
+   - If -x calculate (-x * hit dice * 4/3), else simply x.
+
+   damage [4]
+   - up to 4 different attacks
+
+   HD: like player level, used for misc things
+   avg_hp_10x: average hp for the monster, * 10 for precision
+               (see hit_points() for details)
+
+   sec: the monster's spellbook. If a monster has no spells, MST_NO_SPELLS.
+
+   corpse: whether the monster leaves a corpse or not
+
+   shouts
+   - various things monsters can do upon seeing you
+
+   intel explanation:
+   - How smart it is:
+   I_BRAINLESS < I_ANIMAL < I_HUMAN.
+   Differences here have a wide variety of small effects; tracking distance,
+   behaviour around dangerous clouds, co-operation with allies, etc.
+
+   speed
+   - Increases the store of energy that the monster uses for doing things.
+   less = slower. 5 = half speed, 10 = normal, 20 = double speed.
+
+   energy usage
+   - How quickly the energy granted by speed is used up. Most monsters
+   should just use DEFAULT_ENERGY, where all the different types of actions
+   use 10 energy units.
+
+   gmon_use explanation:
+     MONUSE_NOTHING,
+     MONUSE_OPEN_DOORS,
+     MONUSE_STARTING_EQUIPMENT,
+     MONUSE_WEAPONS_ARMOUR
+
+    From MONUSE_STARTING_EQUIPMENT on, monsters are capable of handling
+    items. Contrary to what one might expect, MONUSE_WEAPONS_ARMOUR
+    also means a monster is capable of using wands and will also pick
+    them up, something that those with MONUSE_STARTING_EQUIPMENT won't
+    do.
+
+   size:
+     SIZE_TINY,              // rats/bats
+     SIZE_LITTLE,            // spriggans
+     SIZE_SMALL,             // halflings/kobolds
+     SIZE_MEDIUM,            // humans/elves/dwarves
+     SIZE_LARGE,             // trolls/ogres/centaurs/nagas
+     SIZE_GIANT,             // giants and such
+
+   tile:
+    - a struct with up to two elements.
+      - the first is the enum for the corresponding sprite in tiles builds;
+        TILEP_MONS_PROGRAM_BUG for special cases.
+      - the second is the way in which the tile may vary; e.g. over time,
+        per-monster-instance, etc.
+
+   corpse:
+     - The enum for the corresponding sprite in tiles builds;
+       TILE_ERROR for monsters without corpses. Only relevant for species mons.
+*/
+
+#define MOVE_ENERGY(x)     { x,  x, 10, 10, 10, 10, 10, 100}
+#define ACTION_ENERGY(x)   {10, 10,  x,  x,  x,  x,  x, x * 10}
+#define ATTACK_ENERGY(x)   {10, 10,  x, 10, 10, 10, 10, 100}
+#define MISSILE_ENERGY(x)  {10, 10, 10,  x, 10, 10, 10, 100}
+#define SPELL_ENERGY(x)    {10, 10, 10, 10,  x, 10, 10, 100}
+#define SWIM_ENERGY(x)     {10,  x, 10, 10, 10, 10, 10, 100}
+
+#define M_NOT_DANGEROUS (M_NO_EXP_GAIN | M_NO_THREAT)
+
+static monsterentry mondata[] =
+{
+
+// The Thing That Should Not Be(tm)
+// NOTE: Do not remove, or seekmonster will crash on unknown mc request!
+// It is also a good prototype for new monsters.
+{
+    // id, glyph, colour, name
+    MONS_PROGRAM_BUG, 'B', LIGHTRED, "program bug",
+    // monster flags
+    M_NOT_DANGEROUS | M_CANT_SPAWN,
+    // resistance flags
+    MR_NO_FLAGS,
+    // xp modifier, genus, species, holiness, willpower
+    10, MONS_PROGRAM_BUG, MONS_PROGRAM_BUG, MH_NATURAL, 10,
+    // up to four attacks
+    { AT_NO_ATK, AT_NO_ATK, AT_NO_ATK, AT_NO_ATK },
+    // hit points
+    0, 0,
+    // AC, EV, spells, corpse type, shout type
+    0, 0, MST_NO_SPELLS, true, S_SILENT,
+    // intelligence, habitat, speed, energy usage
+    I_BRAINLESS, HT_LAND, 0, DEFAULT_ENERGY,
+    // use type, body size, body shape
+    MONUSE_NOTHING, SIZE_GIANT, MON_SHAPE_MISC,
+    {TILEP_MONS_PROGRAM_BUG}, TILE_ERROR
+},
+
+// Use this to replace removed monsters, to retain save compatibility.
+// Please put it in #if TAG_MAJOR_VERSION == X, so they will go away
+// after save compat is broken.
+#define AXED_MON(id, name) \
+{ \
+    id, 'X', LIGHTRED, "removed " name, \
+    M_NO_EXP_GAIN | M_CANT_SPAWN | M_UNFINISHED, \
+    MR_NO_FLAGS, \
+    10, MONS_PROGRAM_BUG, MONS_PROGRAM_BUG, MH_NONLIVING, 0, \
+    { AT_NO_ATK, AT_NO_ATK, AT_NO_ATK, AT_NO_ATK }, \
+    0, 0, \
+    0, 0, MST_NO_SPELLS, true, S_SILENT, \
+    I_BRAINLESS, HT_LAND, 0, DEFAULT_ENERGY, \
+    MONUSE_NOTHING, SIZE_GIANT, MON_SHAPE_MISC, \
+    {TILEP_MONS_PROGRAM_BUG}, TILE_ERROR \
+},
+
+// Axed monsters.
+// AXED_MON(MONS_AXE_MURDERER, "Jason")
+#if TAG_MAJOR_VERSION == 34
+    AXED_MON(MONS_BUMBLEBEE, "bumblebee")
+    AXED_MON(MONS_WOOD_GOLEM, "wood golem")
+    AXED_MON(MONS_ANT_LARVA, "ant larva")
+    AXED_MON(MONS_LABORATORY_RAT, "laboratory rat")
+    AXED_MON(MONS_WAR_DOG, "war dog")
+    AXED_MON(MONS_SPIRIT, "spirit")
+    AXED_MON(MONS_PALADIN, "paladin")
+    AXED_MON(MONS_DEEP_ELF_SOLDIER, "deep elf soldier")
+    AXED_MON(MONS_PAN, "pan")
+    AXED_MON(MONS_LAMIA, "lamia")
+    AXED_MON(MONS_DEEP_DWARF_SCION, "deep dwarf scion")
+    AXED_MON(MONS_DEEP_DWARF_ARTIFICER, "deep dwarf artificer")
+    AXED_MON(MONS_DEEP_DWARF_NECROMANCER, "deep dwarf necromancer")
+    AXED_MON(MONS_CHAOS_BUTTERFLY, "chaos butterfly")
+    AXED_MON(MONS_POLYMOTH, "polymoth")
+    AXED_MON(MONS_MOTH_OF_SUPPRESSION, "moth of suppression")
+    AXED_MON(MONS_ROCK_WORM, "rock worm")
+    AXED_MON(MONS_FORMICID_DRONE, "formicid drone")
+    AXED_MON(MONS_SPIRIT_WOLF, "spirit wolf")
+    AXED_MON(MONS_LAVA_FISH, "lava fish")
+    AXED_MON(MONS_JELLYFISH, "jellyfish")
+    AXED_MON(MONS_GREY_RAT, "grey rat")
+    AXED_MON(MONS_SPINY_WORM, "spiny worm")
+    AXED_MON(MONS_ROCK_TROLL, "rock troll")
+    AXED_MON(MONS_MONSTROUS_ITEM_MIMIC, "monstrous item mimic")
+    AXED_MON(MONS_GIANT_AMOEBA, "giant amoeba")
+    AXED_MON(MONS_DEEP_DWARF_BERSERKER, "deep dwarf berserker")
+    AXED_MON(MONS_AGATE_SNAIL, "agate snail")
+    AXED_MON(MONS_GIANT_CENTIPEDE, "giant centipede")
+    AXED_MON(MONS_ANCIENT_BEAR, "ancient bear")
+    AXED_MON(MONS_ROTTING_DEVIL, "rotting devil")
+    AXED_MON(MONS_IGNIS, "ignis")
+    AXED_MON(MONS_RAKSHASA_FAKE, "rakshasa fake")
+    AXED_MON(MONS_MARA_FAKE, "mara fake")
+    // GNOME_NO_MORE
+    AXED_MON(MONS_GNOME, "gnome")
+    // GOLEM_NO_MORE
+    AXED_MON(MONS_CLAY_GOLEM, "clay golem")
+    AXED_MON(MONS_STONE_GOLEM, "stone golem")
+    AXED_MON(MONS_FORMICID_VENOM_MAGE, "formicid venom mage")
+    AXED_MON(MONS_SPRIGGAN_ASSASSIN, "spriggan assassin")
+    AXED_MON(MONS_VAPOUR, "vapour")
+    AXED_MON(MONS_THORN_LOTUS, "thorn lotus")
+    AXED_MON(MONS_GIANT_GOLDFISH, "giant goldfish")
+    AXED_MON(MONS_SILVER_STAR, "silver star")
+    AXED_MON(MONS_FLAMING_CORPSE, "flaming corpse")
+    AXED_MON(MONS_GRIZZLY_BEAR, "grizzly bear")
+    AXED_MON(MONS_SPRIGGAN_ENCHANTER, "spriggan enchanter")
+    AXED_MON(MONS_PHOENIX, "phoenix")
+    AXED_MON(MONS_SHEDU, "shedu")
+    AXED_MON(MONS_PLAGUE_SHAMBLER, "plague shambler")
+    AXED_MON(MONS_GIANT_SLUG, "giant slug")
+    AXED_MON(MONS_FIREFLY, "firefly")
+    AXED_MON(MONS_BROWN_OOZE, "brown ooze")
+    AXED_MON(MONS_PULSATING_LUMP, "pulsating lump")
+    AXED_MON(MONS_BIG_FISH, "big fish")
+    AXED_MON(MONS_LAVA_WORM, "lava worm")
+    AXED_MON(MONS_SHARK, "shark")
+    AXED_MON(MONS_INEPT_ITEM_MIMIC, "inept item mimic")
+    AXED_MON(MONS_ITEM_MIMIC, "item mimic")
+    AXED_MON(MONS_RAVENOUS_ITEM_MIMIC, "ravenous item mimic")
+    AXED_MON(MONS_INEPT_FEATURE_MIMIC, "inept feature mimic")
+    AXED_MON(MONS_FEATURE_MIMIC, "feature mimic")
+    AXED_MON(MONS_RAVENOUS_FEATURE_MIMIC, "ravenous feature mimic")
+    AXED_MON(MONS_MNOLEG_TENTACLE, "mnoleg tentacle")
+    AXED_MON(MONS_MNOLEG_TENTACLE_SEGMENT, "mnoleg tentacle segment")
+    AXED_MON(MONS_UNBORN, "unborn")
+    AXED_MON(MONS_GIANT_MITE, "giant mite")
+    AXED_MON(MONS_BABY_ALLIGATOR, "baby alligator")
+    AXED_MON(MONS_BORING_BEETLE, "boring beetle")
+    AXED_MON(MONS_CHIMERA, "chimera")
+    AXED_MON(MONS_RAVEN, "raven")
+    AXED_MON(MONS_SINGULARITY, "singularity")
+    AXED_MON(MONS_GRAND_AVATAR, "grand avatar")
+    AXED_MON(MONS_SALAMANDER_FIREBRAND, "salamander firebrand")
+    AXED_MON(MONS_OCTOPODE_CRUSHER, "octopode crusher")
+    AXED_MON(MONS_BLUE_DEVIL, "blue devil")
+    AXED_MON(MONS_BRAIN_WORM, "brain worm")
+    AXED_MON(MONS_DEEP_ELF_SUMMONER, "deep elf summoner")
+    AXED_MON(MONS_DEEP_ELF_CONJURER, "deep elf conjurer")
+    AXED_MON(MONS_DEEP_ELF_PRIEST, "deep elf priest")
+    AXED_MON(MONS_DEEP_ELF_FIGHTER, "deep elf fighter")
+    AXED_MON(MONS_TRAPDOOR_SPIDER, "trapdoor spider")
+    AXED_MON(MONS_SALAMANDER_STORMCALLER, "salamander stormcaller")
+    AXED_MON(MONS_NORRIS, "norris")
+    AXED_MON(MONS_MAUD, "maud")
+    AXED_MON(MONS_WIGLAF, "wiglaf")
+    AXED_MON(MONS_SHEEP, "sheep")
+    AXED_MON(MONS_ANUBIS_GUARD, "anubis guard")
+    AXED_MON(MONS_GRIFFON, "griffon")
+    AXED_MON(MONS_BEETLE, "beetle")
+    AXED_MON(MONS_PUTRID_DEMONSPAWN, "putrid demonspawn")
+    AXED_MON(MONS_CHAOS_CHAMPION, "chaos champion")
+    AXED_MON(MONS_WASP, "wasp")
+    AXED_MON(MONS_MOTTLED_DRACONIAN, "mottled draconian")
+    AXED_MON(MONS_DRACONIAN_ZEALOT, "draconian zealot")
+    AXED_MON(MONS_HILL_GIANT, "hill giant")
+    AXED_MON(MONS_BULTUNGIN, "bultungin")
+    AXED_MON(MONS_HYPERACTIVE_BALLISTOMYCETE, "hyperactive ballistomycete")
+    AXED_MON(MONS_HOMUNCULUS, "homunculus")
+    AXED_MON(MONS_SOUPLING, "soupling")
+    AXED_MON(MONS_BLESSED_TOE, "blessed toe")
+    AXED_MON(MONS_LAVA_ORC, "lava orc")
+    AXED_MON(MONS_MONSTROUS_FEATURE_MIMIC, "monstrous feature mimic")
+    AXED_MON(MONS_SLAVE, "slave")
+    AXED_MON(MONS_HUNGRY_GHOST, "hungry ghost")
+    AXED_MON(MONS_CROCODILE, "crocodile")
+    AXED_MON(MONS_HIPPOGRIFF, "hippogriff")
+    AXED_MON(MONS_PORCUPINE, "porcupine")
+    AXED_MON(MONS_CRAWLING_CORPSE, "crawling corpse")
+    AXED_MON(MONS_MACABRE_MASS, "macabre mass")
+    AXED_MON(MONS_EYE_OF_DRAINING, "eye of draining")
+    AXED_MON(MONS_DEATH_OOZE, "death ooze")
+    AXED_MON(MONS_LEOPARD_GECKO, "leopard gecko")
+    AXED_MON(MONS_WORKER_ANT, "worker ant")
+    AXED_MON(MONS_QUEEN_ANT, "queen ant")
+    AXED_MON(MONS_SOLDIER_ANT, "soldier ant")
+    AXED_MON(MONS_IRONBOUND_BEASTMASTER, "ironbound beastmaster")
+    AXED_MON(MONS_MONSTROUS_DEMONSPAWN, "monstrous demonspawn")
+    AXED_MON(MONS_GELID_DEMONSPAWN, "gelid demonspawn")
+    AXED_MON(MONS_INFERNAL_DEMONSPAWN, "infernal demonspawn")
+    AXED_MON(MONS_TORTUROUS_DEMONSPAWN, "torturous demonspawn")
+#endif
+
+// Used for genus monsters (which are used for grouping monsters by how they
+// work and in comes-into-view messages).
+#define DUMMY(id, glyph, colour, name, tile) \
+{ \
+    (id), (glyph), (colour), (name), \
+    M_CANT_SPAWN, \
+    MR_NO_FLAGS, \
+    10, (id), (id), MH_NONLIVING, 10, \
+    { AT_NO_ATK, AT_NO_ATK, AT_NO_ATK, AT_NO_ATK }, \
+    0, 0, \
+    0, 0, MST_NO_SPELLS, true, S_SILENT, \
+    I_BRAINLESS, HT_LAND, 0, DEFAULT_ENERGY, \
+    MONUSE_NOTHING, SIZE_MEDIUM, MON_SHAPE_MISC, \
+    {(tile)}, TILE_ERROR \
+},
+
+
+// Real monsters begin here {dlb}:
+
+// ancients ('a')
 {
     MONS_IMPERIAL_MYRMIDON, 'a', LIGHTCYAN, "imperial myrmidon",
     M_WARM_BLOOD | M_SPEAKS,
@@ -931,6 +1244,8 @@
     {TILEP_MONS_FELID}, TILE_CORPSE_FELID
 },
 
+DUMMY(MONS_BEAR, 'h', LIGHTGREY, "bear", TILEP_MONS_BLACK_BEAR)
+
 {
     MONS_POLAR_BEAR, 'h', LIGHTBLUE, "polar bear",
     M_WARM_BLOOD,
@@ -1038,6 +1353,9 @@
     {TILEP_MONS_SPRIGGAN_DEFENDER}, TILE_ERROR
 },
 
+// drakes ('k')
+DUMMY(MONS_DRAKE, 'k', LIGHTGREY, "drake", TILEP_MONS_SWAMP_DRAKE)
+
 {
     MONS_SWAMP_DRAKE, 'k', BROWN, "swamp drake",
     M_WARM_BLOOD | M_FLIES,
@@ -1104,6 +1422,8 @@
     {TILEP_MONS_DEATH_DRAKE}, TILE_CORPSE_DEATH_DRAKE
 },
 
+// lizards ('l')
+DUMMY(MONS_GIANT_LIZARD, 'l', LIGHTGREY, "giant lizard", TILEP_MONS_IGUANA)
 
 {
     MONS_FRILLED_LIZARD, 'l', GREEN, "frilled lizard",
@@ -1958,6 +2278,8 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_ALLIGATOR_SNAPPING_TURTLE}, TILE_CORPSE_ALLIGATOR_SNAPPING_TURTLE
 },
 
+DUMMY(MONS_CRAB, 't', LIGHTGREY, "crab", TILEP_MONS_FIRE_CRAB)
+
 {
     MONS_FIRE_CRAB, 't', LIGHTRED, "fire crab",
     M_NO_SKELETON,
@@ -2067,6 +2389,10 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     MONUSE_NOTHING, SIZE_GIANT, MON_SHAPE_MISC,
     {TILEP_MONS_SPATIAL_MAELSTROM, TVARY_CYCLE}, TILE_ERROR
 },
+
+// wisp-form
+DUMMY(MONS_INSUBSTANTIAL_WISP, 'v', LIGHTGREY, "insubstantial wisp",
+      TILEP_MONS_WILL_O_THE_WISP)
 
 {
     MONS_WILL_O_THE_WISP, 'v', GREEN, "will-o-the-wisp",
@@ -2333,6 +2659,8 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     MONUSE_NOTHING, SIZE_TINY, MON_SHAPE_INSECT_WINGED,
     {TILEP_MONS_SPARK_WASP}, TILE_CORPSE_SPARK_WASP
 },
+
+DUMMY(MONS_MOTH, 'y', WHITE, "moth", TILEP_MONS_MOTH_OF_WRATH)
 
 {
     MONS_GHOST_MOTH, 'y', MAGENTA, "ghost moth",
@@ -2639,6 +2967,9 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_DEATH_SCARAB}, TILE_CORPSE_DEATH_SCARAB
 },
 
+// cyclopes and giants ('C')
+DUMMY(MONS_GIANT, 'C', LIGHTGREY, "giant", TILEP_MONS_STONE_GIANT)
+
 {
     MONS_CYCLOPS, 'C', YELLOW, "cyclops",
     M_WARM_BLOOD | M_SPEAKS,
@@ -2769,6 +3100,8 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_TAINTED_LEVIATHAN}, TILE_CORPSE_TAINTED_LEVIATHAN
 },
 
+// dragons ('D')
+DUMMY(MONS_DRAGON, 'D', GREEN, "dragon", TILEP_MONS_FIRE_DRAGON)
 
 {
     MONS_FIRE_DRAGON, 'D', LIGHTRED, "fire dragon",
@@ -2947,6 +3280,8 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_PEARL_DRAGON}, TILE_CORPSE_PEARL_DRAGON
 },
 
+// elementals (E)
+DUMMY(MONS_ELEMENTAL, 'E', LIGHTGREY, "elemental", TILEP_MONS_WATER_ELEMENTAL)
 
 {
     MONS_EARTH_ELEMENTAL, 'E', ETC_EARTH, "earth elemental",
@@ -3040,6 +3375,8 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_ELEMENTAL_WELLSPRING}, TILE_ERROR
 },
 
+// frogs ('F')
+DUMMY(MONS_FROG, 'F', LIGHTGREEN, "giant frog", TILEP_MONS_BULLFROG)
 
 {
     MONS_BULLFROG, 'F', GREEN, "bullfrog",
@@ -3089,8 +3426,12 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     12, 420,
     3, 16, MST_NO_SPELLS, true, S_SILENT, // IRL, goliath frogs have no vocals!
     I_ANIMAL, HT_AMPHIBIOUS, 12, SWIM_ENERGY(6),
+    MONUSE_NOTHING, SIZE_LITTLE /* ~13" */, MON_SHAPE_QUADRUPED_TAILLESS,
+    {TILEP_MONS_GOLIATH_FROG}, TILE_CORPSE_GOLIATH_FROG
 },
 
+// dummy for recolouring
+{
     MONS_BARACHI, 'F', LIGHTCYAN, "barachi",
     M_SPEAKS | M_NO_POLY_TO | M_NO_GEN_DERIVED,
     MR_NO_FLAGS,
@@ -3399,6 +3740,9 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     MONUSE_NOTHING, SIZE_SMALL, MON_SHAPE_BLOB,
     {TILEP_MONS_PROGRAM_BUG}, TILE_ERROR
 },
+
+DUMMY(MONS_MERGED_SLIME_CREATURE, 'J', LIGHTGREEN, "merged slime creature",
+      TILEP_MONS_PROGRAM_BUG)
 
 {
     MONS_ROCKSLIME, 'J', BROWN, "rockslime",
@@ -4077,6 +4421,8 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_PROGRAM_BUG}, TILE_ERROR
 },
 
+// snakes ('S')
+DUMMY(MONS_SNAKE, 'S', LIGHTGREEN, "snake", TILEP_MONS_ADDER)
 
 {
     MONS_BALL_PYTHON, 'S', GREEN, "ball python",
@@ -5071,6 +5417,10 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_HEADMASTER}, TILE_ERROR
 },
 
+// 'dummy' a fairly accurate description
+DUMMY(MONS_PLAYER, '@', LIGHTGREY, "player", TILEP_MONS_PLAYER_GHOST)
+
+// player illusion (Mara) - stats are stored in ghost struct. Undead/demonic
 // flags are set based on the current player's species!
 {
     MONS_PLAYER_ILLUSION, '@', WHITE, "player illusion",
@@ -5156,6 +5506,7 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_LIVING_SPELL}, TILE_ERROR // XXX TODO
 },
 
+DUMMY(MONS_WALKING_TOME, ';', BROWN, "walking tome", TILE_ERROR) // XXX TODO
 
 {
     MONS_EARTHEN_TOME, ';', MAGENTA, "walking earthen tome",
@@ -5768,6 +6119,12 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     {TILEP_MONS_EXECUTIONER}, TILE_ERROR
 },
 
+// trees and related creatures ('7')
+DUMMY(MONS_ANIMATED_TREE, '7', ETC_TREE, "animated tree", TILEP_MONS_TREANT)
+
+// non-living creatures
+// golems ('8')
+DUMMY(MONS_GOLEM, '9', LIGHTGREY, "golem", TILEP_MONS_IRON_GOLEM)
 
 {
     MONS_SALTLING, '9', WHITE, "saltling",
@@ -6091,6 +6448,8 @@ DUMMY(MONS_SPIDER, 's', CYAN, "spider", TILEP_MONS_REDBACK)
     MONUSE_OPEN_DOORS, SIZE_LARGE, MON_SHAPE_HUMANOID,
     {TILEP_MONS_PANDEMONIUM_LORD}, TILE_ERROR
 },
+
+DUMMY(MONS_HELL_LORD, '&', COLOUR_UNDEF, "hell lord", TILEP_MONS_PROGRAM_BUG)
 
 // explodey things / orb of fire ('*')
 {

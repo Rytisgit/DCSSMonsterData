@@ -1,0 +1,569 @@
+name,hd,hp,ac,ev
+enum.h,10,10,10,10 
+program bug,0,0,0,0 
+removed ,0,0,0,0 
+Jason,0,0,0,0 
+imperial myrmidon,16,750,1,22 
+servant of whispers,12,800,1,12 
+ragged hierophant,9,1200,0,10 
+bat,1,35,1,14 
+butterfly,1,10,0,15 
+vampire bat,3,105,1,14 
+fire bat,5,225,1,14 
+bennu,14,770,6,16 
+caustic shrike,18,1080,8,18 
+shard shrike,21,1050,2,18 
+centaur,4,220,3,7 
+centaur warrior,10,550,4,8 
+yaktaur,8,440,4,4 
+yaktaur captain,14,770,5,5 
+faun,10,500,2,10 
+satyr,12,660,2,12 
+draconian,8,640,10,11 
+black draconian,14,980,9,10 
+yellow draconian,14,980,9,10 
+pale draconian,14,980,9,14 
+green draconian,14,980,9,10 
+purple draconian,14,980,9,10 
+red draconian,14,980,9,10 
+white draconian,14,980,9,10 
+grey draconian,14,980,16,10 
+draconian stormcaller,16,880,0,0 
+draconian monk,16,1200,3,10 
+draconian shifter,16,960,1,6 
+draconian annihilator,16,800,1,0 
+draconian knight,16,1120,9,2 
+draconian scorcher,16,800,1,2 
+elf,8,360,3,15 
+deep elf knight,11,495,0,17 
+deep elf archer,10,500,0,15 
+deep elf blademaster,16,1040,0,25 
+deep elf master archer,15,750,0,15 
+deep elf zephyrmancer,9,405,0,13 
+deep elf pyromancer,9,405,0,13 
+deep elf high priest,11,495,3,13 
+deep elf demonologist,12,540,0,13 
+deep elf annihilator,15,675,0,13 
+deep elf sorcerer,14,630,0,13 
+deep elf death mage,15,675,0,13 
+deep elf elementalist,14,630,0,13 
+wandering mushroom,8,440,5,0 
+deathcap,13,520,5,0 
+thorn hunter,15,975,9,9 
+shambling mangrove,13,910,13,3 
+vine stalker,8,360,2,12 
+goblin,1,40,0,12 
+hobgoblin,1,55,2,10 
+gnoll,2,130,2,9 
+gnoll bouda,3,195,2,9 
+gnoll sergeant,4,260,2,9 
+boggart,4,200,0,12 
+dwarf,5,275,2,12 
+deep dwarf,5,275,2,12 
+jackal,1,55,2,12 
+hound,3,165,2,13 
+howler monkey,3,185,1,11 
+warg,5,325,4,12 
+wolf,4,220,4,15 
+hog,6,330,2,9 
+hell hound,5,275,6,13 
+doom hound,20,1100,6,13 
+raiju,7,385,4,14 
+hell hog,11,595,2,9 
+holy swine,11,605,2,9 
+felid,5,175,2,18 
+bear,7,455,7,8 
+black bear,6,270,2,8 
+spriggan,7,245,1,18 
+spriggan rider,11,605,1,18 
+spriggan druid,11,440,1,18 
+spriggan berserker,12,540,2,18 
+spriggan air mage,14,490,1,24 
+spriggan defender,15,675,3,22 
+drake,4,300,3,11 
+rime drake,6,330,3,12 
+wind drake,8,600,3,14 
+lindwurm,9,495,8,6 
+death drake,9,765,6,14 
+giant lizard,1,20,0,15 
+iguana,3,165,5,9 
+basilisk,6,360,3,12 
+skyshark,10,800,8,8 
+wyvern,5,275,5,10 
+komodo dragon,8,440,7,8 
+merfolk,10,550,4,12 
+merfolk impaler,12,780,0,18 
+merfolk javelineer,13,730,0,12 
+merfolk aquamancer,14,630,0,12 
+merfolk siren,9,405,4,12 
+sickly merfolk siren,3,135,4,12 
+merfolk avatar,13,845,4,12 
+malarious merfolk avatar,3,195,4,12 
+water nymph,10,400,2,13 
+bog body,10,390,1,9 
+necrophage,5,275,2,10 
+bloated husk,8,250,5,5 
+ghoul,14,1470,4,10 
+searing wretch,18,1600,4,8 
+orc,1,70,0,10 
+orc wizard,3,150,1,12 
+orc priest,3,150,1,10 
+orc warrior,4,280,0,13 
+orc knight,9,675,2,13 
+orc warlord,15,1125,3,10 
+orc sorcerer,9,315,5,12 
+orc high priest,11,550,1,12 
+human,6,330,3,13 
+hell knight,10,650,0,10 
+death knight,10,800,2,12 
+necromancer,10,400,0,13 
+wizard,10,400,0,13 
+vault guard,13,715,1,13 
+vault sentinel,8,520,1,13 
+vault warden,16,880,1,13 
+ironbound convoker,9,495,0,10 
+ironbound frostheart,12,600,0,10 
+ironbound preserver,14,1120,0,6 
+shapeshifter,7,385,0,10 
+glowing shapeshifter,10,550,0,10 
+Killer Klown,20,1500,10,15 
+demigod,5,375,2,12 
+halfling,3,105,2,12 
+meteoran,5,375,2,12 
+spectator,20,1000,0,10 
+rat,1,25,1,10 
+quokka,1,55,2,13 
+river rat,2,110,5,11 
+hell rat,3,165,7,10 
+crystal echidna,12,640,10,10 
+scorpion,4,180,5,10 
+emperor scorpion,14,1090,18,7 
+spider,8,280,3,14 
+jumping spider,8,320,6,12 
+wolf spider,11,550,3,10 
+redback,9,270,2,12 
+demonic crawler,9,585,10,6 
+orb spider,10,420,3,10 
+broodmother,12,1400,2,4 
+culicivora,8,390,2,16 
+alligator,12,720,5,9 
+snapping turtle,10,600,16,5 
+alligator snapping turtle,16,1440,19,1 
+crab,8,520,9,6 
+ghost crab,9,585,9,6 
+apocalypse crab,8,520,11,6 
+ugly thing,12,660,4,10 
+very ugly thing,18,990,6,10 
+fire vortex,10,300,0,5 
+spatial vortex,6,540,0,5 
+spatial maelstrom,10,750,0,5 
+insubstantial wisp,11,400,4,10 
+twister,12,120000,0,5 
+worm,4,180,1,5 
+swamp worm,10,350,3,12 
+tyrant leech,12,600,5,15 
+dart slug,1,100,1,1 
+torpor snail,10,600,8,1 
+steelbarb worm,10,690,11,7 
+elephant slug,20,1300,2,1 
+unseen horror,7,385,5,10 
+small abomination,6,270,0,0 
+ancient zyme,8,520,6,6 
+worldbinder,8,400,12,4 
+bunyip,12,800,6,10 
+killer bee,3,165,2,18 
+queen bee,7,385,10,10 
+vampire mosquito,5,275,2,15 
+hornet,6,330,6,14 
+meliai,7,245,2,14 
+spark wasp,12,660,9,14 
+moth,13,715,8,10 
+moth of wrath,9,495,0,10 
+sun moth,9,805,6,12 
+wight,3,165,4,10 
+skeletal warrior,10,650,15,10 
+ancient champion,14,700,15,10 
+flying skull,7,210,10,17 
+curse skull,13,520,35,3 
+curse toe,14,980,25,1 
+revenant,18,810,8,12 
+angel,12,1020,10,20 
+cherub,9,765,10,20 
+seraph,25,2125,10,20 
+daeva,14,1190,10,13 
+profane servitor,18,1530,10,20 
+giant cockroach,1,50,3,10 
+radroach,12,800,13,5 
+formicid,6,420,3,10 
+entropy weaver,7,715,7,13 
+boulder beetle,12,765,20,2 
+pharaoh ant,10,360,4,8 
+death scarab,8,320,7,14 
+giant,9,495,5,3 
+ettin,12,660,9,4 
+fire giant,16,960,8,4 
+frost giant,16,1040,9,3 
+stone giant,16,880,12,2 
+titan,20,1100,10,3 
+juggernaut,20,1700,20,5 
+iron giant,18,1800,18,2 
+cactus giant,9,495,1,2 
+tainted leviathan,18,1500,15,2 
+dragon,12,900,10,8 
+hydra,13,715,0,5 
+ice dragon,12,900,10,8 
+steam dragon,4,300,5,10 
+swamp dragon,9,675,7,7 
+acid dragon,5,275,5,10 
+quicksilver dragon,16,880,10,15 
+iron dragon,18,1170,20,6 
+storm dragon,14,1050,13,10 
+golden dragon,18,1080,15,7 
+shadow dragon,17,1275,15,10 
+bone dragon,20,1800,20,4 
+pearl dragon,18,1170,10,15 
+elemental,6,450,14,4 
+quicksilver elemental,16,800,1,20 
+fire elemental,6,330,4,12 
+water elemental,6,420,4,7 
+air elemental,6,330,2,18 
+iron elemental,12,1080,20,2 
+elemental wellspring,18,620,8,8 
+giant frog,4,220,0,12 
+cane toad,7,385,6,9 
+blink frog,6,330,0,16 
+goliath frog,12,420,3,16 
+barachi,3,180,0,10 
+floating eye,9,165,0,1 
+glowing orange brain,10,550,2,4 
+great orb of eyes,12,660,10,3 
+shining eye,10,550,3,1 
+eye of devastation,10,550,12,1 
+golden eye,6,120,0,20 
+ophan,15,975,10,10 
+manticore,9,495,5,7 
+minotaur,14,780,6,9 
+fenstrider witch,16,666,3,15 
+sphinx,16,880,5,5 
+harpy,7,385,2,10 
+jorogumo,12,850,4,14 
+armataur,8,450,15,5 
+mutant beast,15,825,8,5 
+ancestor,1,1,5,10 
+knight,1,1,5,10 
+battlemage,1,1,5,10 
+hexer,1,1,5,10 
+endoplasm,1,60,1,3 
+jelly,3,165,0,2 
+slime creature,11,605,1,4 
+merged slime creature,20,600,27,2 
+quicksilver ooze,13,500,3,15 
+azure jelly,15,825,5,10 
+acid blob,18,990,1,3 
+kobold,1,35,2,12 
+kobold brigand,5,275,3,12 
+kobold demonologist,6,390,2,13 
+lich,20,800,10,10 
+ancient lich,27,1080,20,10 
+dread lich,27,1080,20,10 
+halazid warlock,18,750,8,12 
+stoker,13,800,5,12 
+mummy,3,195,3,6 
+guardian mummy,7,455,6,9 
+royal mummy,15,1950,10,6 
+mummy priest,10,650,8,7 
+naga,5,275,6,10 
+naga mage,7,385,6,10 
+naga sharpshooter,9,720,6,10 
+naga ritualist,8,600,6,10 
+naga warrior,10,750,6,10 
+nagaraja,15,825,6,10 
+ogre,5,275,1,6 
+two-headed ogre,10,550,3,6 
+ogre mage,10,550,1,7 
+ironbound thunderhulk,18,880,1,8 
+plant,10,2000,0,0 
+demonic plant,10,2000,0,0 
+withered plant,10,2000,0,0 
+oklob sapling,4,220,10,0 
+oklob plant,10,550,10,0 
+starflower,16,900,16,0 
+bush,20,1100,15,0 
+burning bush,8,440,10,0 
+toadstool,1,30,1,0 
+fungus,8,2000,0,0 
+ballistomycete,4,260,1,0 
+briar patch,10,150,10,0 
+tengu,5,225,2,12 
+tengu conjurer,7,315,2,17 
+tengu warrior,10,600,2,17 
+tengu reaver,17,850,2,17 
+djinni,8,400,5,5 
+efreet,7,385,10,5 
+rakshasa,11,660,6,14 
+wendigo,15,880,4,20 
+dryad,8,520,6,12 
+eleionoma,16,800,2,10 
+snaplasher vine,12,240,4,7 
+snaplasher vine segment,12,360,6,0 
+snake,1,35,0,11 
+adder,2,110,1,15 
+water moccasin,5,275,2,15 
+black mamba,7,385,4,15 
+sea snake,10,650,2,15 
+anaconda,11,605,4,16 
+guardian serpent,8,440,6,14 
+shock serpent,10,550,2,15 
+mana viper,9,495,3,14 
+troll,7,385,3,10 
+iron troll,16,880,20,4 
+deep troll,10,550,6,10 
+deep troll earth mage,12,480,12,10 
+deep troll shaman,12,480,6,10 
+vampire,6,330,10,10 
+vampire knight,11,715,10,10 
+vampire mage,10,550,10,10 
+jiangshi,10,650,10,10 
+ghost,1,10,0,0 
+phantom,6,270,3,13 
+flayed ghost,11,605,0,14 
+player ghost,4,140,1,2 
+shadow,6,240,7,10 
+silent spectre,8,440,5,15 
+drowned soul,13,195,0,13 
+wraith,6,330,10,10 
+shadow wraith,10,550,7,7 
+putrid mouth,14,700,5,14 
+freezing wraith,8,440,12,10 
+eidolon,13,715,12,10 
+phantasmal warrior,9,495,12,10 
+large abomination,11,495,0,0 
+thrashing horror,9,495,5,10 
+tentacled monstrosity,23,1265,5,5 
+Orb Guardian,15,825,13,13 
+tentacled starspawn,16,880,5,5 
+starspawn tentacle,11,220,8,2 
+starspawn tentacle segment,11,220,8,2 
+starcursed mass,12,1500,10,0 
+nameless horror,15,600,8,2 
+dream sheep,9,220,2,10 
+yak,7,385,4,7 
+death yak,14,770,9,5 
+catoblepas,14,770,10,2 
+elephant,9,675,8,2 
+dire elephant,15,1125,13,2 
+hellephant,20,1700,13,10 
+apis,16,1200,9,5 
+ice beast,5,275,5,10 
+sky beast,5,275,3,13 
+zombie,1,75,0,4 
+skeleton,0,0,0,0 
+simulacrum,2,110,10,4 
+small zombie,1,75,0,4 
+small skeleton,0,0,0,0 
+small simulacrum,2,110,10,4 
+large zombie,6,330,8,5 
+large skeleton,0,0,0,0 
+large simulacrum,5,275,10,5 
+spectral thing,8,440,8,5 
+bound soul,8,440,8,5 
+electric eel,3,165,1,15 
+kraken,16,2080,20,0 
+tentacle,12,480,5,7 
+tentacle segment,12,480,5,7 
+octopode,8,560,1,5 
+lava snake,3,165,2,17 
+salamander,8,640,5,7 
+salamander mystic,10,650,5,7 
+salamander tyrant,15,675,5,7 
+Hellbinder,20,1500,0,13 
+Cloud Mage,20,1500,0,13 
+Head Instructor,20,1500,0,18 
+player,4,140,1,2 
+shadow,1,10,3,13 
+dancing weapon,15,150,10,20 
+spectral weapon,5,250,5,10 
+animated armour,15,400,8,5 
+living spell,1,3,0,5 
+walking tome,27,1000,20,5 
+walking crystal tome,15,1000,15,5 
+walking divine tome,20,1000,10,5 
+walking frostbound tome,20,1000,10,10 
+eldritch tentacle,16,1200,13,0 
+eldritch tentacle segment,16,1200,13,0 
+demonspawn,10,925,3,12 
+demonspawn blood saint,15,925,6,12 
+demonspawn warmonger,15,1250,3,12 
+demonspawn corrupter,15,925,3,15 
+demonspawn black sun,15,925,9,12 
+crimson imp,3,135,3,14 
+quasit,3,150,5,17 
+white imp,2,110,4,10 
+ufetubus,1,70,2,15 
+iron imp,3,165,6,8 
+shadow imp,2,110,3,11 
+lemure,5,275,4,12 
+rust devil,8,440,10,8 
+orange demon,8,520,3,7 
+red devil,7,315,7,13 
+hellwing,7,455,16,10 
+ice devil,8,440,12,10 
+chaos spawn,6,330,7,12 
+sun demon,10,550,10,12 
+soul eater,11,605,18,10 
+smoke demon,7,385,5,9 
+neqoxec,6,330,4,12 
+ynoxinul,6,330,3,10 
+sixfirhy,9,385,2,20 
+shadow demon,10,550,7,12 
+green death,13,715,5,7 
+blizzard demon,12,660,10,10 
+balrug,14,770,5,12 
+cacodemon,13,975,11,10 
+hell beast,7,840,5,14 
+hellion,7,385,5,10 
+reaper,14,770,15,10 
+lorocyproca,14,770,10,12 
+tormentor,7,385,12,12 
+Brimstone Fiend,18,990,15,6 
+Ice Fiend,18,990,15,6 
+Tzitzimitl,22,1050,12,16 
+Hell Sentinel,19,1425,25,3 
+Executioner,12,660,10,15 
+animated tree,8,270,15,5 
+peacekeeper,12,450,20,3 
+iron golem,15,3000,25,5 
+crystal guardian,16,640,22,0 
+toenail golem,9,585,8,5 
+electric golem,15,1350,5,20 
+ushabti,7,455,9,6 
+guardian golem,5,400,10,2 
+spellforged servitor,8,800,10,10 
+ice statue,8,720,12,1 
+obsidian statue,10,700,12,1 
+orange crystal statue,10,700,12,1 
+statue,8,720,12,1 
+training dummy,1,60,0,0 
+pillar of salt,1,10,1,0 
+block of ice,3,285,15,0 
+diamond obelisk,8,96000,12,1 
+lightning spire,3,210,13,3 
+strange machine,21,900,12,1 
+gargoyle,6,270,18,6 
+war gargoyle,13,520,22,4 
+molten gargoyle,7,315,14,7 
+nargun,22,540,25,4 
+pandemonium lord,19,1710,1,2 
+hell lord,1,10,0,10 
+ballistomycete spore,1,10,0,10 
+lost soul,10,250,0,10 
+lurking horror,1,10,0,10 
+orb of fire,30,1500,20,20 
+creeping inferno,15,10,0,10 
+orb of destruction,5,50000,0,10 
+foxfire,1,10,0,10 
+fulminant prism,5,150,3,0 
+wretched star,10,700,10,10 
+battlesphere,5,150,0,5 
+death cob,14,910,10,15 
+A,19,1520,15,28 
+a,15,1800,10,10 
+c,9,720,4,8 
+C,18,1170,14,2 
+Polyphemus,16,1520,10,3 
+Antaeus,22,6820,28,4 
+d,22,3850,30,10 
+Bai Suzhen,20,1850,14,8 
+D,20,1330,15,7 
+the Lernaean hydra,30,1500,0,5 
+the Serpent of Hell,17,2805,16,12 
+the Serpent of Hell,17,2805,20,12 
+the Serpent of Hell,17,3230,30,8 
+the Serpent of Hell,17,3230,16,12 
+Bai Suzhen,20,1850,22,4 
+e,4,360,2,9 
+Dowan,3,240,0,13 
+Fannar,10,800,4,15 
+F,6,390,0,16 
+g,3,240,2,12 
+Robin,2,160,1,8 
+Grum,4,400,2,9 
+Crazy Yiuf,3,195,2,9 
+Jorgrun,15,1200,2,15 
+Grunn,16,2000,6,6 
+h,3,150,2,12 
+H,17,2040,3,10 
+Asterion,15,1275,4,4 
+i,11,990,0,20 
+the Enchantress,15,975,1,30 
+J,21,2310,8,4 
+Dissolution,16,1760,10,1 
+K,6,300,2,24 
+Pikel,6,390,4,12 
+L,22,1540,12,10 
+Josephina,21,1500,10,21 
+M,3,240,3,6 
+Khufu,18,2430,10,6 
+m,16,1520,5,18 
+N,16,1600,6,18 
+O,6,540,3,7 
+Lodul,6,700,3,7 
+o,3,315,0,9 
+Urug,9,675,2,13 
+Nergalle,10,600,9,11 
+Saint Roka,18,1980,3,10 
+Sojobo,20,1500,2,24 
+Azrael,11,880,10,5 
+Mara,18,1440,10,14 
+S,14,1400,8,18 
+T,8,960,0,10 
+Pargi,5,350,1,12 
+Parghit,27,1200,1,12 
+moon troll,18,990,20,4 
+V,18,1800,10,15 
+Gastronok,20,1500,2,1 
+Mlioglotl,15,1400,10,5 
+Nellie,20,2400,13,10 
+z,14,1610,30,10 
+Ignacio,18,2520,10,15 
+Grinder,6,390,3,11 
+Amaemon,7,875,3,12 
+Roxanne,14,1820,20,0 
+Vv,23,2700,27,12 
+Terence,2,200,0,10 
+Jessica,1,95,0,10 
+Sigmund,3,270,0,11 
+Edmund,4,440,0,10 
+Psyche,5,400,0,12 
+Donald,14,840,3,10 
+Joseph,6,660,0,10 
+Erica,9,630,0,11 
+Josephine,10,700,0,10 
+Harold,9,765,0,8 
+Louise,13,1040,0,10 
+Frances,14,1330,0,10 
+Rupert,16,1200,0,10 
+Kirke,16,1120,0,10 
+Frederick,21,1575,0,10 
+Maggie,5,600,0,10 
+Margery,22,1650,0,10 
+Eustachio,4,400,0,13 
+Maurice,5,600,1,13 
+Nikola,18,1890,1,9 
+Mnoleg,17,3485,10,25 
+Lom Lobon,19,3895,10,20 
+Cerebov,21,6510,30,8 
+Gloorx Vloq,16,3520,10,10 
+Geryon,15,3000,15,6 
+Dispater,16,4480,40,3 
+Asmodeus,17,4505,30,7 
+Ereshkigal,18,3510,10,30 
+test spawner,1000,10000000,127,127 
+test statue,1000,10000000,0,0 
+test blob,1000,10000000,0,0 
+sensed monster,1,10,0,0 
+friendly sensed monster,1,10,0,0 
+trivial sensed monster,1,10,0,0 
+easy sensed monster,1,10,0,0 
+tough sensed monster,1,10,0,0 
+nasty sensed monster,1,10,0,0 
