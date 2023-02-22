@@ -1,6 +1,8 @@
-﻿# CSV of DCSS Monster Data
-This is a simple csv file to look into monster data easily
-## The regex I had a very hard time making to update it
+﻿# CSV of DCSS Monster Data and Weapon Damage Calculation
+
+This is a csv file parser to look into monster data easily, along with a spreadsheet to calculate a comparison between 2 weapons taking into account monster ac.
+
+## The regex I had a very hard time making to update the csv
 `,\s"([^"]*)"[\s\S]*?(?=.+?(.+?(\d+), (\d+),))(.+?(\d+), (\d+),)\s(.+?(\d+), (\d+))\s*`
 
 used in https://regexr.com/
@@ -19,4 +21,10 @@ Then added headers to data :
 
 `name,hd,datahp,ac,ev`
 
-google sheet available: https://docs.google.com/spreadsheets/d/1tiYxdtwKVlAN2hdXsOYLV0STmu-uNI4PeCaAZdLpih8/edit?usp=sharing
+## The SpreadSheet
+
+available here: https://docs.google.com/spreadsheets/d/1tiYxdtwKVlAN2hdXsOYLV0STmu-uNI4PeCaAZdLpih8/edit?usp=sharing
+
+Type in desired weapon and character stats, press update button to see new ratios(need to authorise the script for the first time). The script is included for viewing in the GoogleSheetsExport folder.
+
+Big Thanks to powerbf, whose implementation of damage calculation I heavily based the google sheets app script on. https://github.com/powerbf/crawl-helper/ / https://powerbf.github.io/crawl-helper/
