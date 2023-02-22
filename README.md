@@ -1,6 +1,11 @@
 ﻿# CSV of DCSS Monster Data and Weapon Damage Calculation
 
-This is a csv file parser to look into monster data easily, along with a spreadsheet to calculate a comparison between 2 weapons taking into account monster ac.
+### A csv file parser to look into monster data easily, along with a spreadsheet to calculate a comparison between 2 weapons taking into account monster ac.
+
+![image](https://user-images.githubusercontent.com/36188103/220609936-ea0d1115-1878-44dd-ba3f-a68947988704.png)
+
+
+
 
 ## The regex I had a very hard time making to update the csv
 `,\s"([^"]*)"[\s\S]*?(?=.+?(.+?(\d+), (\d+),))(.+?(\d+), (\d+),)\s(.+?(\d+), (\d+))\s*`
@@ -21,9 +26,9 @@ Then added headers to data :
 
 `name,hd,datahp,ac,ev`
 
-## The SpreadSheet
+## The Spreadsheet
 
-available here: https://docs.google.com/spreadsheets/d/1tiYxdtwKVlAN2hdXsOYLV0STmu-uNI4PeCaAZdLpih8/edit?usp=sharing
+Available at: https://docs.google.com/spreadsheets/d/1tiYxdtwKVlAN2hdXsOYLV0STmu-uNI4PeCaAZdLpih8/edit?usp=sharing
 
 Type in desired weapon and character stats, press update button to see new ratios(need to authorise the script for the first time). The script is included for viewing in the GoogleSheetsExport folder.
 
