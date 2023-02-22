@@ -1,4 +1,4 @@
-﻿# CSV of DCSS Monster Data and Weapon Damage Calculation
+﻿# CSV of DCSS Monster Data along Weapon Damage Calculation Spreadsheet
 
 ### A csv file parser to look into monster data easily, along with a spreadsheet to calculate a comparison between 2 weapons taking into account monster ac.
 
