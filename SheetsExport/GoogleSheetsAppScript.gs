@@ -7,6 +7,7 @@ function addProduct() {
     selection.push(data[1][i])
     //Logger.log(i+":"+data[1][i]);
   }
+  
   var size = selection[7];
   var shieldPenalty = selection[6];
   var shieldsSkill = selection[3];
@@ -51,7 +52,7 @@ function addProduct() {
   }  
 
   var ratiosAc = {};
-for(var i = 0; i < acValues.length; i++){
+  for(var i = 0; i < acValues.length; i++){
     var ratiosArr = [];
     for(var j = 0; j < 28; j++){
       var a = acKeysWeapon1[acValues[i]][j]/acKeysWeapon2[acValues[i]][j];
@@ -66,12 +67,23 @@ for(var i = 0; i < acValues.length; i++){
     var range = sheet.getRange("G"+(i+1)+":AH"+(i+1));
     range.setValues(ratiosAc[ac]);
   }
-    
-    
 
+    var rawDataSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("RawDamage");
+    for(var i = 0; i < acValues.length; i++){
+        var cell = rawDataSheet.getRange("B"+(i+2));
+        cell.setValue(acValues[i]);
+        cell = rawDataSheet.getRange("A"+(i+2));
+        cell.setValue("w1");
+        var range = rawDataSheet.getRange("C"+(i+2)+":AD"+(i+2));
+        range.setValues([acKeysWeapon1[acValues[i]]]);
+        cell = rawDataSheet.getRange("B"+(acValues.length+i+2));
+        cell.setValue(acValues[i]);
+        cell = rawDataSheet.getRange("A"+(acValues.length+i+2));
+        cell.setValue("w2");
+        range = rawDataSheet.getRange("C"+(acValues.length+i+2)+":AD"+(acValues.length+i+2));
+        range.setValues([acKeysWeapon1[acValues[i]]]);
   }
-
-
+}
 
 // add value to a dictionary entry, creating the entry if needed
 function addToEntry(dict, key, value)
@@ -103,7 +115,6 @@ function applyACReduction(weightedDamage, monsterAC)
     return weightedDamage;
 }
 
-
 function calcShieldPenalty(size, shieldPenalty, shieldsSkill)
 {
     var  racialFactor = 0; // default for most medium species
@@ -126,6 +137,7 @@ function calcShieldPenalty(size, shieldPenalty, shieldsSkill)
 
     return Math.max(0, penalty);
 }
+
 function calcShieldSpeedPenalty(size, sPenalty, shieldsSkill) {
     var shieldPenalty = calcShieldPenalty(size, sPenalty, shieldsSkill );
 
@@ -184,6 +196,7 @@ function calcArmourSpeedPenalty(str, armourSkill, armourEncumbrance) {
     // convert from auts to turns
     return penalty / 10;
 }
+
 // work out average of weighted values
 function getWeightedAverage(weightedValues)
 {
@@ -196,6 +209,7 @@ function getWeightedAverage(weightedValues)
     }
     return count == 0 ? 0 : sum/count;
 }
+
 // Ref: attack::calc_damage() method in:
 // https://github.com/crawl/crawl/blob/master/crawl-ref/source/attack.cc 
 function calcDamage(shieldSpeedPenalty, armourSpeedPenalty, skill, str, dex, fighting, base_damage, base_delay, min_delay, slaying, brand, ranged, monsterAC)
